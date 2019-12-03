@@ -2,6 +2,12 @@ import numpy as np
 import cv2
 
 # used: https://www.pyimagesearch.com/2018/02/26/face-detection-with-opencv-and-deep-learning/
+# MTCNN: from https://machinelearningmastery.com/how-to-perform-face-detection-with-classical-and-deep-learning-methods-in-python-with-keras/
+# https://arxiv.org/pdf/1604.02878.pdf
+
+# FACENET: https://github.com/davidsandberg/facenet
+# https://arxiv.org/abs/1503.03832
+
 
 # loading the DL model
 prototxt_file = './opencv_files/deploy.prototxt'
@@ -13,10 +19,10 @@ caffe_model = './opencv_files/res10_300x300_ssd_iter_140000_fp16.caffemodel'
 net = cv2.dnn.readNetFromCaffe(prototxt_file, caffe_model)
 
 # loading the image
-img_path = "./test_images/pitt.jpeg"
+img_path = "./test_images/faces.jpeg"
 img = cv2.imread(img_path)
 (h, w) = img.shape[:2]
-blob = cv2.dnn.blobFromImage(cv2.resize(img, (300, 300)), 1.0, (300, 3000), (104.0, 177.0, 123.0))
+blob = cv2.dnn.blobFromImage(img, 1.0, (300, 300), (104.0, 177.0, 123.0))
 
 # 
 net.setInput(blob)
