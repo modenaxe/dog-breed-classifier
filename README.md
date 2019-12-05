@@ -19,25 +19,43 @@ This project has multiple steps:
 6. Write an algorithm to read an image and apply the previous points
 7. Test the algorithm on new images
 
-## 1 Datasets
+## Step1: Datasets
 The two datasets have the following characteristics:
-* The [human dataset](https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/lfw.zip) includes 13233 images of various size. Most pictures are faces of personalities taken from the internet.
+* The [human dataset](https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/lfw.zip) includes 13233 images of various size. Most pictures are faces of personalities available online.
 * The [dog dataset](https://s3-us-west-1.amazonaws.com/udacity-aind/dog-project/dogImages.zip)includes 8351 images of various size of dogs organised in 133 breeds. Some of the images include humans (their faces or body parts).
 
-## 2 Face Detection
-* Human faces are detected using a [Haar feature-detection cascade classifier](https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html) available from the [OpenCV](https://opencv.org) library.
-* Faces were sought in both datasets to assess the quality of the detection. The classifier is known to have issues recognising faces in certain conditions, especially in non-frontal pictures.
+## Step2: Face Detection
+Human faces are detected using a [Haar feature-detection cascade classifier](https://docs.opencv.org/3.4/db/d28/tutorial_cascade_classifier.html) available from the [OpenCV](https://opencv.org) library.
+Faces were sought in both datasets to assess the quality of the detection as the classifier is known to have issues recognising faces in certain conditions, e.g. in non-frontal face pictures.
  
-## 3 Detect Dogs
-A [VGG-16 network](https://arxiv.org/abs/1409.1556) pretrained on the ImageNet dataset is used for this detection task.
-The ImageNet dataset __includes__ dog breeds between its [1000 classes](https://gist.github.com/modenaxe/b00024740ed273bd30d700d2841aeaf5), but they are only 188 (class 151 to 268).
-Dogs are detected in the images from both datasets using a
- 
+## Step3: Detect Dogs
+A [VGG-16 network](https://arxiv.org/abs/1409.1556) pretrained on the ImageNet dataset is used for the dog detection task.
+The ImageNet dataset __includes__ dog breeds between its [1000 classes](https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a), but they are only 188 (class nr:151 to 268).
+As in Step2, the detector is applied to both the human and dog datasets to assess its performance.
 
-1. Build a dog-detector using VGG-16 network pre-trained on Image-Net
-2. Build a dog-detector using other architectures (Inception, ResNet and DenseNet)
+**OPTIONAL TASK:** the same step was performed also with these network architectures, [available](https://pytorch.org/docs/stable/torchvision/models.html) from torchvision:
+* [Inception-v3](https://arxiv.org/abs/1512.00567) 
+* [ResNet](https://arxiv.org/abs/1512.03385) 
+* [DenseNet](https://arxiv.org/abs/1608.06993)).
 
-## 3 Implement a dog-breed classifier
+## Step4 Design and implement a CNN to classify dog breeds
+A CNN was designed, trained and tested with the aim of recognizing dog breeds.
+These are the main points to highlight:
+* preprocess the input images as reported in the literature, using:
+	* resizingrandom
+	* random cropping
+	* color jittering
+	* horizontal flip and random rotations
+	* normalization with the standard values for ImageNet
+* The CNN was designed to be:
+		* as deep as possible, within the available GPU memory limits
+		* fully connected layers with dropout to prevent overfitting 
+* the network was trained:
+	* using a **cross-entropy loss**
+	* using an **Adam optimizer** with an adaptive learning rate starting at 0.001 and decreasing by a factor of 10 every time the loss was not decreasing for six epochs
+	
+
+	
 1. implementing a network from scratch
 2. using a pretrained network and using transfer learning
 
