@@ -1,8 +1,12 @@
 # Dog-Breed and Face-Detection 
+
+# Overview
+In this project, I used convolutional neural networks to detect if an image contains a human face or a dog and, in the latter case, to identify the breed of that dog.
 This is an image classification project for my deep learning nanodegree at Udacity.
 
 # STEPS
 ## 1 Detect Human Faces
+
 1. Using a Haar feature-detection cascade classifier
 2. Using a deep learning based face detector from OpenCV
  
