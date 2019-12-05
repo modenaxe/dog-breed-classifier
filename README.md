@@ -32,11 +32,10 @@ Faces were sought in both datasets to assess the quality of the detection as the
 A [VGG-16 network](https://arxiv.org/abs/1409.1556) pretrained on the ImageNet dataset is used for the dog detection task.
 The ImageNet dataset __includes__ dog breeds between its [1000 classes](https://gist.github.com/yrevar/942d3a0ac09ec9e5eb3a), but they are only 188 (class nr:151 to 268).
 As in Step2, the detector is applied to both the human and dog datasets to assess its performance.
-
-**OPTIONAL TASK:** the same step was performed also with these network architectures, [available](https://pytorch.org/docs/stable/torchvision/models.html) from torchvision:
+The same step was performed comparing these network architectures, [available](https://pytorch.org/docs/stable/torchvision/models.html) from torchvision:
 * [Inception-v3](https://arxiv.org/abs/1512.00567) 
 * [ResNet](https://arxiv.org/abs/1512.03385) 
-* [DenseNet](https://arxiv.org/abs/1608.06993)).
+* [DenseNet](https://arxiv.org/abs/1608.06993)
 
 ## Step4 Design and implement a CNN to classify dog breeds
 A CNN was designed from scratch, trained and tested for recognizing dog breeds.
@@ -60,16 +59,17 @@ The same VGG-16 network used at Step3 for the dog detection was modified and use
 * The network was trained for around 10 epochs.
 
 ## Step6-7 Write and test an algorithm to read an image and apply the previous points
-An algorithm was developed that uses all the functions above and does the following:
+An algorithm was developed that uses all the functions produced at the steps above and does the following:
 1. detects if dog, human, dog and human or neither of them are present in an image given as input.
 2. plots the image with a greeting message appropriate to the identified content
 3. plots the top-5 classes and their probabilities.
+Note that the CNNs used in this implementation is that from Step5 because the achieved accuracy was much larger (>70% versus 22%).
 
 # Limitations
 * Haare classifier does not recognise faces in all images.
 * The entire workflow is a bit "cranky" to run at the moment.
 
-## Future work
+# Future work
 OpenCV offers some deep-learning algoorithms for face detection in their [dnn module](https://github.com/opencv/opencv/tree/master/samples/dnn/face_detector).
 Those models can be implemented in Cafee using:
 1. a Caffee model file `deploy.prototxt` 
