@@ -2,7 +2,7 @@
 This project uses convolutional neural networks (**CNNs**) in Pytorch to classify images of humans and dogs. 
 Humans are recognized using a face detector and dogs using a network pretrained on the [ImageNet dataset](http://www.image-net.org/).
 Finally the dogs are classified based on their breed and an output is return to the user.
-
+Humans can be classified as well, in case you want to know to which dog breed you look more similar!
 
 # Project submission
 This is a project for my deep-learning nanodegree at Udacity.
@@ -39,42 +39,43 @@ As in Step2, the detector is applied to both the human and dog datasets to asses
 * [DenseNet](https://arxiv.org/abs/1608.06993)).
 
 ## Step4 Design and implement a CNN to classify dog breeds
-A CNN was designed, trained and tested with the aim of recognizing dog breeds.
+A CNN was designed from scratch, trained and tested for recognizing dog breeds.
 These are the main points to highlight:
-* preprocess the input images as reported in the literature, using:
-	* resizingrandom
-	* random cropping
-	* color jittering
-	* horizontal flip and random rotations
-	* normalization with the standard values for ImageNet
-* The CNN was designed to be:
-		* as deep as possible, within the available GPU memory limits
-		* fully connected layers with dropout to prevent overfitting 
-* the network was trained:
-	* using a **cross-entropy loss**
+1. **Image preprocessing**:  this CNN resizes the images to 224x224 pixels (RGB color channels) and augments the the training set using random resize crop, color jittering, random horizontal flip and random rotations. 
+Finally it applies the standard normalization for ImageNet inputs using `mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225]`.
+2. **Architecture**: The CNN is designed to be:
+	* as deep as possible, within the available GPU memory limits (three convolutional layers with ReLU activation, each followed by MaxPooling). Maximum number of channels is 128.
+	* halve the HxW dimension of the feature maps at each layer.
+	* finish with two fully connected layers with a dropout layer to prevent overfitting 
+	* the final layer outputs scores to a softmax function providing dog-breed class probabilies.
+2. **Training**: the network was trained until the validation loss did not decrease (around 50 epochs) using:
+	* using a **cross-entropy** loss
 	* using an **Adam optimizer** with an adaptive learning rate starting at 0.001 and decreasing by a factor of 10 every time the loss was not decreasing for six epochs
-	
+	* mini-batches of 128 images	
 
-	
-1. implementing a network from scratch
-2. using a pretrained network and using transfer learning
+## Step5 Create a CNN to classify dog breeds using transfer learning
+The same VGG-16 network used at Step3 for the dog detection was modified and used to identify their breeds.
+* The architecture was modified just at the final two fully connected layers to match the number of classes (133) and decrease the number of parameters.
+* The training set augmentation and training set up was the same as for the CNN trained from scratch.
+* The network was trained for around 10 epochs.
 
-## Face-detection
-Face detection is performed in two ways:
-1. using a Haare classifier, implemented by default in OpenCV
-2. using a Caffe deep-learning network, also available from OpenCV
+## Step6-7 Write and test an algorithm to read an image and apply the previous points
+An algorithm was developed that uses all the functions above and does the following:
+1. detects if dog, human, dog and human or neither of them are present in an image given as input.
+2. plots the image with a greeting message appropriate to the identified content
+3. plots the top-5 classes and their probabilities.
 
-# Alternative face detection algorithm
-OpenCV offers some deep-learning based algoorithm for face detection. There is a link on their main github [page](https://github.com/opencv/opencv/tree/ea667d82b30a19b10a6c00edf8acc6e9dd85c429/samples/dnn).
+# Limitations
+* Haare classifier does not recognise faces in all images.
+* The entire workflow is a bit "cranky" to run at the moment.
 
 ## Future work
-2. Using a deep learning based face detector from OpenCV
-Model uses `dnn` model available from [here](https://github.com/opencv/opencv/tree/master/samples/dnn/face_detector) and defined by:
+OpenCV offers some deep-learning algoorithms for face detection in their [dnn module](https://github.com/opencv/opencv/tree/master/samples/dnn/face_detector).
+Those models can be implemented in Cafee using:
 1. a Caffee model file `deploy.prototxt` 
 2. network trained weights `weights.meta4`. 
-Those files are in the `opencv_files` directory.
+Those files are in the `opencv_files` directory and there is some initial test [at this link](https://github.com/modenaxe/dog-breed-classifier/tree/master/opencv_dnn_face_detector) .
 
 # Other Resources used in this project
 * [Git Large File Storage](https://git-lfs.github.com/)
-* [pyimagesearch blog](https://www.pyimagesearch.com/2018/02/26/face-detection-with-opencv-and-deep-learning/)
  
