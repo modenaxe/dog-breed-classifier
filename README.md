@@ -1,4 +1,4 @@
-# Overview
+# Overview [![DOI](https://zenodo.org/badge/221329637.svg)](https://zenodo.org/badge/latestdoi/221329637)
 This project uses convolutional neural networks (**CNNs**) in Pytorch to classify images of humans and dogs. 
 Humans are recognized using a face detector and dogs using a network pretrained on the [ImageNet dataset](http://www.image-net.org/).
 Finally the dogs are classified based on their breed and an output is return to the user.
